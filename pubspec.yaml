@@ -1,0 +1,32 @@
+name: career_tracker
+description: "NL Career Tracker - Netherlands tech jobs, alerts and market insight."
+publish_to: 'none'
+version: 2.0.0+1
+
+environment:
+  sdk: ^3.7.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^9.1.1
+  equatable: ^2.0.7
+  dio: ^5.8.0
+  get_it: ^8.0.3
+  flutter_secure_storage: ^9.2.4
+  talker: ^4.7.0
+  fl_chart: ^0.70.2
+  url_launcher: ^6.3.1
+  file_picker: ^8.1.7
+  cupertino_icons: ^1.0.8
+  path_provider: ^2.1.5
+  share_plus: ^10.1.4
+  google_sign_in: ^6.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
