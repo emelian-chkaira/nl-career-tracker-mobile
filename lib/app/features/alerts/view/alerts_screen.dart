@@ -7,11 +7,12 @@ import '../../../global/widgets/widgets.dart';
 import '../cubit/alerts_cubit.dart';
 
 class AlertsScreen extends StatelessWidget {
-  const AlertsScreen({super.key});
+  const AlertsScreen({super.key, this.embedded = false});
+  final bool embedded;
   @override
   Widget build(BuildContext context) {
     final signedIn = context.watch<AppWrapperCubit>().state.userState == UserState.authenticated;
-    return Scaffold(appBar: AppBar(title: const Text('Alerts')), body: signedIn ? const _Body() : const SignInPrompt(what: 'save searches and get alerts'));
+    return Scaffold(appBar: embedded ? null : AppBar(title: const Text('Alerts')), body: signedIn ? const _Body() : const SignInPrompt(what: 'save searches and get alerts'));
   }
 }
 

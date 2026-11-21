@@ -9,7 +9,8 @@ import '../../jobs/view/job_tile.dart';
 import '../cubit/pipeline_cubit.dart';
 
 class PipelineScreen extends StatefulWidget {
-  const PipelineScreen({super.key});
+  const PipelineScreen({super.key, this.embedded = false});
+  final bool embedded;
   @override
   State<PipelineScreen> createState() => _PipelineScreenState();
 }
@@ -25,7 +26,7 @@ class _PipelineScreenState extends State<PipelineScreen> {
   Widget build(BuildContext context) {
     final c = context.read<PipelineCubit>();
     return Scaffold(
-      appBar: AppBar(title: const Text('My pipeline')),
+      appBar: widget.embedded ? null : AppBar(title: const Text('My pipeline')),
       body: BlocBuilder<PipelineCubit, PipelineState>(
         builder: (context, s) => StatusView(
           state: s,

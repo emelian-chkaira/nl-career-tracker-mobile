@@ -77,8 +77,8 @@ class _JobsScreenState extends State<JobsScreen> {
             child: CustomScrollView(controller: _scroll, physics: const AlwaysScrollableScrollPhysics(), slivers: [
               SliverToBoxAdapter(
                 child: HeroBanner(
-                  title: intern ? 'Find your internship in the Netherlands' : 'Tech jobs in the Netherlands',
-                  subtitle: 'Read straight from employers\' own career pages. No aggregators.',
+                  title: intern ? 'Your first step into the Dutch tech scene' : 'Find work you would actually want to do',
+                  subtitle: 'Every role comes straight from the employer\'s own careers page: no middlemen, no duplicates.',
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Row(children: [
                       Expanded(
@@ -91,7 +91,7 @@ class _JobsScreenState extends State<JobsScreen> {
                       Badge(
                         isLabelVisible: s.filters.activeCount > 0,
                         label: Text('${s.filters.activeCount}'),
-                        child: IconButton.filled(style: IconButton.styleFrom(backgroundColor: Colors.white24, foregroundColor: Colors.white), icon: const Icon(Icons.tune), onPressed: () => showFiltersSheet(context, cubit)),
+                        child: IconButton.outlined(icon: const Icon(Icons.tune), onPressed: () => showFiltersSheet(context, cubit)),
                       ),
                     ]),
                     const SizedBox(height: 10),
@@ -103,7 +103,7 @@ class _JobsScreenState extends State<JobsScreen> {
                             padding: const EdgeInsets.only(right: 6),
                             child: GestureDetector(
                               onTap: () { _q.text = q; cubit.setQuery(q); setState(() {}); },
-                              child: Container(alignment: Alignment.center, padding: const EdgeInsets.symmetric(horizontal: 12), decoration: BoxDecoration(color: const Color(0x33FFFFFF), border: Border.all(color: const Color(0x55FFFFFF)), borderRadius: BorderRadius.circular(99)), child: Text(q, style: const TextStyle(color: Colors.white, fontSize: 12.5, fontWeight: FontWeight.w600))),
+                              child: Container(alignment: Alignment.center, padding: const EdgeInsets.symmetric(horizontal: 12), decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface, border: Border.all(color: Theme.of(context).dividerColor), borderRadius: BorderRadius.circular(8)), child: Text(q, style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600))),
                             ),
                           ),
                       ]),
@@ -122,7 +122,7 @@ class _JobsScreenState extends State<JobsScreen> {
               ),
               if (s.status == Status.loading && s.items.isEmpty) const SliverToBoxAdapter(child: Loading())
               else if (s.status == Status.failed && s.items.isEmpty) SliverToBoxAdapter(child: TryAgain(error: s.error, onRetry: cubit.refresh))
-              else if (s.items.isEmpty) const SliverToBoxAdapter(child: Padding(padding: EdgeInsets.only(top: 60), child: EmptyView('No jobs match. Loosen the filters or try another search.', icon: Icons.search_off)))
+              else if (s.items.isEmpty) const SliverToBoxAdapter(child: Padding(padding: EdgeInsets.only(top: 60), child: EmptyView('Nothing matches just yet. Try fewer filters or another search.', icon: Icons.search_off)))
               else SliverList.builder(
                 itemCount: s.items.length + 1,
                 itemBuilder: (context, i) {

@@ -1,3 +1,5 @@
+import '../../app/features/inbox/cubit/inbox_cubit.dart';
+import '../../app/features/inbox/repo/inbox_repo.dart';
 import '../../app/features/auth/cubit/account_cubit.dart';
 import 'package:get_it/get_it.dart';
 
@@ -36,6 +38,7 @@ class Dependencies {
     getIt.registerLazySingleton<DashboardRepo>(() => DashboardRepo());
     getIt.registerLazySingleton<PipelineRepo>(() => PipelineRepo());
     getIt.registerLazySingleton<CvRepo>(() => CvRepo());
+    getIt.registerLazySingleton<InboxRepo>(() => InboxRepo());
 
     // Session (one for the whole app)
     getIt.registerLazySingleton<AppWrapperCubit>(() => AppWrapperCubit(repo: getIt(), secureStorage: getIt()));
@@ -50,6 +53,7 @@ class Dependencies {
     getIt.registerFactory(() => DashboardCubit(repo: getIt()));
     getIt.registerFactory(() => PipelineCubit(repo: getIt()));
     getIt.registerFactory(() => CvCubit(repo: getIt()));
+    getIt.registerFactory(() => InboxCubit(repo: getIt()));
     getIt.registerFactory(() => ProfileCubit(repo: getIt(), wrapper: getIt()));
   }
 }

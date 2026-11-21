@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'app/features/alerts/cubit/alerts_cubit.dart';
-import 'app/features/alerts/view/alerts_screen.dart';
+import 'app/features/my/view/my_search_screen.dart';
 import 'app/features/auth/app_wrapper_cubit/app_wrapper_cubit.dart';
 import 'app/features/dashboard/cubit/dashboard_cubit.dart';
 import 'app/features/dashboard/view/dashboard_screen.dart';
@@ -41,17 +41,15 @@ class _HomeShellState extends State<HomeShell> {
         ],
         child: Scaffold(
           body: IndexedStack(index: _i, children: [
-            JobsScreen(title: 'Tech jobs in NL'),
-            _InternshipsTab(),
+            _JobsTab(),
             DashboardScreen(),
-            AlertsScreen(),
+            MySearchScreen(),
             ProfileScreen(),
           ].asMap().entries.map((e) => _TabHost(index: e.key, current: _i, child: e.value)).toList()),
           bottomNavigationBar: NavigationBar(selectedIndex: _i, onDestinationSelected: (v) => setState(() => _i = v), destinations: const [
             NavigationDestination(icon: Icon(Icons.work_outline), selectedIcon: Icon(Icons.work), label: 'Jobs'),
-            NavigationDestination(icon: Icon(Icons.school_outlined), selectedIcon: Icon(Icons.school), label: 'Interns'),
             NavigationDestination(icon: Icon(Icons.insights_outlined), selectedIcon: Icon(Icons.insights), label: 'Market'),
-            NavigationDestination(icon: Icon(Icons.notifications_outlined), selectedIcon: Icon(Icons.notifications), label: 'Alerts'),
+            NavigationDestination(icon: Icon(Icons.checklist_outlined), selectedIcon: Icon(Icons.checklist), label: 'My search'),
             NavigationDestination(icon: Icon(Icons.person_outline), selectedIcon: Icon(Icons.person), label: 'Me'),
           ]),
         ),
@@ -76,9 +74,33 @@ class _TabHostState extends State<_TabHost> {
   }
 }
 
-/// The internships tab uses its own JobsCubit (second provider of the same type above).
-class _InternshipsTab extends StatelessWidget {
-  const _InternshipsTab();
+/// Jobs and internships share one tab with a switch on top; each keeps its own search state.
+class _JobsTab extends StatefulWidget {
+  const _JobsTab();
   @override
-  Widget build(BuildContext context) => BlocProvider(create: (_) => getIt<JobsCubit>(param1: const JobFilters(kind: 'internship')), child: const JobsScreen(title: 'Internships'));
+  State<_JobsTab> createState() => _JobsTabState();
+}
+
+class _JobsTabState extends State<_JobsTab> {
+  bool _intern = false;
+  @override
+  Widget build(BuildContext context) => Column(children: [
+        SafeArea(
+          bottom: false,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+            child: SizedBox(width: double.infinity, child: SegmentedButton<bool>(showSelectedIcon: false, segments: const [ButtonSegment(value: false, label: Text('Jobs')), ButtonSegment(value: true, label: Text('Internships'))], selected: {_intern}, onSelectionChanged: (v) => setState(() => _intern = v.first))),
+          ),
+        ),
+        Expanded(
+          child: MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            child: IndexedStack(index: _intern ? 1 : 0, children: [
+              const JobsScreen(title: 'Tech jobs in NL'),
+              BlocProvider(create: (_) => getIt<JobsCubit>(param1: const JobFilters(kind: 'internship')), child: const JobsScreen(title: 'Internships')),
+            ]),
+          ),
+        ),
+      ]);
 }

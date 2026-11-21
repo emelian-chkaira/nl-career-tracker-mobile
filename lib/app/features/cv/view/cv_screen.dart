@@ -56,7 +56,7 @@ class _CvScreenState extends State<CvScreen> {
                 HeroBanner(
                   title: 'Import your CV, export a clean PDF',
                   subtitle: 'PDF, DOCX, LaTeX or text. Links and layout are kept; nothing is stored on the server.',
-                  child: FilledButton.icon(style: FilledButton.styleFrom(backgroundColor: Colors.white, foregroundColor: kBrand), icon: const Icon(Icons.upload_file), label: Text(busy ? 'Reading…' : 'Choose CV file'), onPressed: busy ? null : () => _pick(context)),
+                  child: FilledButton.icon(icon: const Icon(Icons.upload_file), label: Text(busy ? 'Reading…' : 'Choose CV file'), onPressed: busy ? null : () => _pick(context)),
                 ),
               if (busy) const Padding(padding: EdgeInsets.symmetric(vertical: 8), child: LinearProgressIndicator()),
               if (cv != null) ...[
